@@ -2,20 +2,14 @@
 // SPDX-License-Identifier: Unlicensed
 
 /**
-
-███╗   ██╗███████╗████████╗ ██████╗  █████╗ ███╗   ███╗███████╗██████╗ 
-████╗  ██║██╔════╝╚══██╔══╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔══██╗
-██╔██╗ ██║█████╗     ██║   ██║  ███╗███████║██╔████╔██║█████╗  ██████╔╝
-██║╚██╗██║██╔══╝     ██║   ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
-██║ ╚████║██║        ██║   ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
-╚═╝  ╚═══╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
-                                                                       
-
-*** 100 million total supply
-*** 2.5% from the total supply for the marketing wallet - Locked for 30days
-*** 50% supply burn at launch
-*** 5% - Liquidity fee 
-*** 1% - Tax fee for distribution among the hodlers
+100m supply
+2.5% marketing wallet locked for 30days
+50% burn before launch
+5% liquidity, 
+1% tax
+                                                                                                
+NFTGamer
+NFTG
 
 */
 
@@ -832,7 +826,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     bool public swapAndLiquifyEnabled = true;
     
     uint256 public _maxTxAmount = _tTotal.div(100).div(2);   //0.5% of total supply
-    uint256 private constant numTokensSellToAddToLiquidity = 1000000 * 10**9;
+    uint256 private constant numTokensSellToAddToLiquidity = 500000 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
@@ -866,6 +860,8 @@ contract NFTGamer is Context, IERC20, Ownable {
         _isExcludedFromFee[owner()] = true;
         _isExcludedFromFee[address(this)] = true;
         _isExcludedFromFee[coOwner()] = true;
+        _isExcludedFromFee[_burnWallet] = true;
+        _isExcludedFromFee[_marketingWallet] = true;
         excludeFromReward(_burnWallet);
         
         emit Transfer(address(0), owner(), _tTotal);
