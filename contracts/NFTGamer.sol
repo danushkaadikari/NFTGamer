@@ -14,7 +14,7 @@ Website: https://nftgamer.space
 Telegram: https://t.me/NFTGamerToken                                                                       
 
 *** 100 million total supply
-*** 2.5% for marketing wallet - locked for 30days
+*** 2.5% for Developer wallet
 *** 50% of Total supply burn at launch
 *** 5% - Liquidity fee
 *** 1% - Tax fee distributes among hodlers
@@ -810,7 +810,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     address[] private _excluded;
 
     address private _burnWallet = 0x000000000000000000000000000000000000dEaD;
-    address payable public _marketingWallet;
+    address payable public _developerWallet;
 
     bool private _initialDeposit;
    
@@ -852,9 +852,9 @@ contract NFTGamer is Context, IERC20, Ownable {
         inSwapAndLiquify = false;
     }
     
-    constructor (address payable marketingWallet) {
+    constructor (address payable developmentWallet) {
         
-        _marketingWallet = marketingWallet;
+        _developerWallet = developmentWallet;
         _rOwned[owner()] = _rTotal;
         
         // 0x10ED43C718714eb63d5aA57B78B54704E256024E router for mainnet
@@ -872,7 +872,7 @@ contract NFTGamer is Context, IERC20, Ownable {
         _isExcludedFromFee[address(this)] = true;
         _isExcludedFromFee[coOwner()] = true;
         _isExcludedFromFee[_burnWallet] = true;
-        _isExcludedFromFee[_marketingWallet] = true;
+        _isExcludedFromFee[_developerWallet] = true;
         excludeFromReward(_burnWallet);
         
         emit Transfer(address(0), owner(), _tTotal);
@@ -1132,7 +1132,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     
     function _initialDeposits() public onlyOwner returns(bool status) {
         require(!_initialDeposit,"Initial Deposits Already Completed!");
-        _transfer(_msgSender(), _marketingWallet, _tTotal.div(1000).mul(25));
+        _transfer(_msgSender(), _developerWallet, _tTotal.div(1000).mul(25));
         _initialDeposit = true;
         return true;
     }
