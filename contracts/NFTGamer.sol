@@ -2,13 +2,21 @@
 // SPDX-License-Identifier: Unlicensed
 
 /**
-100m supply
-2.5% marketing wallet locked for 30days
-50% burn before launch
-5% liquidity, 
-1% tax
-                                                                                                
-NFTGamer
+
+███╗   ██╗███████╗████████╗ ██████╗  █████╗ ███╗   ███╗███████╗██████╗ 
+████╗  ██║██╔════╝╚══██╔══╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔══██╗
+██╔██╗ ██║█████╗     ██║   ██║  ███╗███████║██╔████╔██║█████╗  ██████╔╝
+██║╚██╗██║██╔══╝     ██║   ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
+██║ ╚████║██║        ██║   ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
+╚═╝  ╚═══╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
+                                                                       
+
+*** 100 million total supply
+*** 2.5% for marketing wallet - locked for 30days
+*** 50% of Total supply burn at launch
+*** 5% - Liquidity fee
+*** 1% - Tax fee distributes among hodlers
+
 NFTG
 
 */
