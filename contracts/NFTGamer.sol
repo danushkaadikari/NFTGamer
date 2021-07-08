@@ -9,7 +9,9 @@
 ██║╚██╗██║██╔══╝     ██║   ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
 ██║ ╚████║██║        ██║   ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
 ╚═╝  ╚═══╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
-                                                                       
+
+Website: https://nftgamer.space
+Telegram: https://t.me/NFTGamerToken                                                                       
 
 *** 100 million total supply
 *** 2.5% for marketing wallet - locked for 30days
