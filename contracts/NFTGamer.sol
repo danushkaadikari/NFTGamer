@@ -1,21 +1,23 @@
 
 /**
   
-███╗   ██╗███████╗████████╗ ██████╗  █████╗ ███╗   ███╗███████╗██████╗ 
-████╗  ██║██╔════╝╚══██╔══╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔══██╗
-██╔██╗ ██║█████╗     ██║   ██║  ███╗███████║██╔████╔██║█████╗  ██████╔╝
-██║╚██╗██║██╔══╝     ██║   ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗
-██║ ╚████║██║        ██║   ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██║  ██║
-╚═╝  ╚═══╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
-                                                                       
-   
 
+$$\   $$\ $$$$$$$$\ $$$$$$$$\  $$$$$$\   $$$$$$\  $$\      $$\ $$$$$$$$\ $$$$$$$\                      $$\   $$\ $$$$$$$$\ $$$$$$$$\  $$$$$$\  
+$$$\  $$ |$$  _____|\__$$  __|$$  __$$\ $$  __$$\ $$$\    $$$ |$$  _____|$$  __$$\                     $$$\  $$ |$$  _____|\__$$  __|$$  __$$\ 
+$$$$\ $$ |$$ |         $$ |   $$ /  \__|$$ /  $$ |$$$$\  $$$$ |$$ |      $$ |  $$ |                    $$$$\ $$ |$$ |         $$ |   $$ /  \__|
+$$ $$\$$ |$$$$$\       $$ |   $$ |$$$$\ $$$$$$$$ |$$\$$\$$ $$ |$$$$$\    $$$$$$$  |      $$$$$$\       $$ $$\$$ |$$$$$\       $$ |   $$ |$$$$\ 
+$$ \$$$$ |$$  __|      $$ |   $$ |\_$$ |$$  __$$ |$$ \$$$  $$ |$$  __|   $$  __$$<       \______|      $$ \$$$$ |$$  __|      $$ |   $$ |\_$$ |
+$$ |\$$$ |$$ |         $$ |   $$ |  $$ |$$ |  $$ |$$ |\$  /$$ |$$ |      $$ |  $$ |                    $$ |\$$$ |$$ |         $$ |   $$ |  $$ |
+$$ | \$$ |$$ |         $$ |   \$$$$$$  |$$ |  $$ |$$ | \_/ $$ |$$$$$$$$\ $$ |  $$ |                    $$ | \$$ |$$ |         $$ |   \$$$$$$  |
+\__|  \__|\__|         \__|    \______/ \__|  \__|\__|     \__|\________|\__|  \__|                    \__|  \__|\__|         \__|    \______/ 
+                                                                                                                                               
+                                                                                                                                               
    Website: https://nftgamer.space
    Telegram: https://t.me/NFTGamerToken                                                                       
-   *** 100 million total supply
+   *** 1 Trillion total supply
    *** 2.5% for Developer wallet
    *** 50% of Total supply burn at launch
-   *** 5% - Liquidity fee
+   *** 8% - Liquidity fee
    *** 1% - Tax fee distributes among hodlers
    
    NFTG
@@ -720,7 +722,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     address private _developerWallet = 0x749aA030E0579a0A3bBcbCfEcfA124b13580E9B1;
    
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 100000000 * 10**9;
+    uint256 private _tTotal = 1000000000000 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -731,7 +733,7 @@ contract NFTGamer is Context, IERC20, Ownable {
     uint256 public _taxFee = 1;
     uint256 private _previousTaxFee = _taxFee;
     
-    uint256 public _liquidityFee = 5;
+    uint256 public _liquidityFee = 8;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
@@ -740,8 +742,8 @@ contract NFTGamer is Context, IERC20, Ownable {
     bool inSwapAndLiquify;
     bool public swapAndLiquifyEnabled = true;
     
-    uint256 public _maxTxAmount = 50 * 10**6 * 10**9;
-    uint256 private numTokensSellToAddToLiquidity = 200000 * 10**9;
+    uint256 public _maxTxAmount = 500000 * 10**6 * 10**9;
+    uint256 private numTokensSellToAddToLiquidity = 250 * 10**6 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
